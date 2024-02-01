@@ -88,14 +88,12 @@ public class ScreenAdmin extends javax.swing.JFrame {
 
                     try {
 
-                        sendEmailOperations.sendTextMessage(USER,
-                                USER,
+                        sendEmailOperations.sendTextMessage(usuario,
+                                usuario,
                                 ASUNTO,
                                 mensaje.toString(),
-                                USER,
-                                TOKEN);
-
-                        getEmailOperations.getEmailsAndSave(user, password, ASUNTO);
+                                usuario,
+                                password);
 
                     } catch (MessagingException ex) {
                         ex.printStackTrace();
@@ -283,6 +281,7 @@ public class ScreenAdmin extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
 
+        getEmailOperations.getEmailsAndSave(usuario, password, ASUNTO);
         utilidades.generarReporteDeCorreos();
 
     }//GEN-LAST:event_jMenuItem2ActionPerformed
