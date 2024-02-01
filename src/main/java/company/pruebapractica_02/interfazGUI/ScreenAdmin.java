@@ -17,7 +17,7 @@ public class ScreenAdmin extends javax.swing.JFrame {
     private final String USER = "tejeraperezfrancisco@gmail.com";
     private final String TOKEN = "frtfmywbyhlododz";
     private final String ASUNTO = "ALERTA DE RAM";
-    private final int LIMITE = 60;
+    private final int LIMITE = 50;
 
     private String usuario;
     private String password;
