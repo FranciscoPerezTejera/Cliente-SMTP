@@ -38,22 +38,25 @@ public class Utiles {
     }
 
     public static void generarReporteDeCorreos() {
-        
+
         String rutaCarpeta = "src/main/java/company/pruebapractica_02/emails";
 
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Guardar reporte de correos en PDF");
-        fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos PDF (*.pdf)", "pdf"));
+        File carpeta = new File(rutaCarpeta);
+        File[] archivos = carpeta.listFiles();
 
-        int seleccionUsuario = fileChooser.showSaveDialog(null);
+        System.out.println(archivos.length);
 
-        if (seleccionUsuario == JFileChooser.APPROVE_OPTION) {
-            File archivoPDFSalida = fileChooser.getSelectedFile();
+        if (archivos != null && archivos.length > 1) {
 
-            File carpeta = new File(rutaCarpeta);
-            File [] archivos = carpeta.listFiles();
-            
-            if (archivos != null) {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Guardar reporte de correos en PDF");
+            fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos PDF (*.pdf)", "pdf"));
+
+            int seleccionUsuario = fileChooser.showSaveDialog(null);
+
+            if (seleccionUsuario == JFileChooser.APPROVE_OPTION) {
+                File archivoPDFSalida = fileChooser.getSelectedFile();
+
                 Document document = new Document();
 
                 try {
@@ -64,23 +67,31 @@ public class Utiles {
 
                     for (File archivo : archivos) {
                         if (archivo.isFile() && archivo.getName().endsWith(".txt")) {
-                            
+
                             agregarContenidoTxtADocumento(document, archivo);
-                            
+
                         }
                     }
 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                    document.close();
-                    JOptionPane.showMessageDialog(null, "El PDF se créo de forma correcta.", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
+                document.close();
+                JOptionPane.showMessageDialog(null, "El PDF se créo de forma correcta.", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
             }
+            
+        } else {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "En la carpeta no se encuentras archivos a los que hacer reporte",
+                    "ERROR",
+                    JOptionPane.ERROR_MESSAGE);
+
         }
     }
 
     private static void agregarContenidoTxtADocumento(Document document, File archivoTxt) throws IOException {
-            
+
         try {
             BufferedReader br = new BufferedReader(new FileReader(archivoTxt));
             String linea;
@@ -89,7 +100,7 @@ public class Utiles {
                 document.add(new Paragraph(linea));
             }
             document.add(new Paragraph("================================"));
-            
+
         } catch (DocumentException ex) {
             Logger.getLogger(Utiles.class.getName()).log(Level.SEVERE, null, ex);
         }
